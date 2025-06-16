@@ -214,7 +214,7 @@ beacon and easily available wireless-capable microcontrollers such as the ESP32.
 \label{sec:proposed-system}
 
 In this section, we formulate the beacon tracking problem as an optimization
-problem. We propose two solutions to this problem and compare their effectiveness.
+problem to estimate the radial distance of the UGV from the beacon. We then propose two solutions to this problem and compare their effectiveness.
 
 %Then, we describe our algorithm for solving this optimization problem
 %using gradient ascent and compare it to a similar algorithm proposed in
@@ -227,24 +227,24 @@ To estimate (radial) distance to beacon, we use its signal strength which is
 usually given by the Received Signal Strength Indicator (RSSI). The RSSI (in
 dBm) at radial distance of \(r\) metres is defined as
 \begin{align}
-    R\brak{r} = R\brak{1} - 10\log_{10}\brak{r},
+    C\brak{r} = C\brak{1} - 10\log_{10}\brak{r},
     \label{eq:rssi}
 \end{align}
-where \(R\brak{1}\) is the RSSI at a distance of 1 metre from the beacon. Using
+where \(C\brak{1}\) is the RSSI at a distance of 1 metre from the beacon. Using
 this definition, the beacon tracking problem can be formulated as the following
 optimization problem.
 \begin{equation}
-    \max_{r} R\brak{r} \text{ s.t. } r > 0.
+    \max_{r} C\brak{r} \text{ s.t. } r > 0.
     \label{eq:rssopt}
 \end{equation}
-The derivative and second derivative of \(R\brak{r}\) is
+The derivative and second derivative of \(C\brak{r}\) is
 \begin{align}
     R^\prime\brak{r} &= -\frac{10}{\ln{10}}\frac{1}{r}, \label{eq:rssid} \\
     R^{\prime\prime}\brak{r} &= \frac{10}{\ln{10}}\frac{1}{r^2} > 0. \label{eq:rssidd}
 \end{align}
-Notice that for \(r > 0\), \(R^\prime\brak{r} < 0\), thus \(R\brak{r}\) is a
+Notice that for \(r > 0\), \(R^\prime\brak{r} < 0\), thus \(C\brak{r}\) is a
 decreasing function of \(r\). This implies that the maximum RSSI is at \(r =
-0\), as expected. Since \(R\brak{r}\) is a convex function of \(r\), we can use
+0\), as expected. Since \(C\brak{r}\) is a convex function of \(r\), we can use
 gradient ascent \cite{boydConvexOptimization2004a} to recursively find the point
 where the RSSI is maximum, which would correspond to the location of the beacon.
 Using \eqref{eq:rssid}, the gradient ascent update equation for the radial
