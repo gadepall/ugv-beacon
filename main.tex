@@ -244,7 +244,7 @@ The derivative and second derivative of \(C\brak{r}\) is
 \end{align}
 Notice that for \(r > 0\), \(R^\prime\brak{r} < 0\), thus \(C\brak{r}\) is a
 decreasing function of \(r\). This implies that the maximum RSSI is at \(r =
-0\), as expected. Since \(C\brak{r}\) is a convex function of \(r\), we can use
+0\), as expected. Since \(C\brak{r}\) is a convex function of \(r\) \cite{}, we can use
 gradient ascent \cite{boydConvexOptimization2004a} to recursively find the point
 where the RSSI is maximum, which would correspond to the location of the beacon.
 Using \eqref{eq:rssid}, the gradient ascent update equation for the radial
@@ -260,8 +260,9 @@ distance to the beacon is decreasing with each step. This means that the UGV
 will converge towards the beacon. However, due to the explosion of the gradient
 in \eqref{eq:rssid} at \(r = 0\), the update steps become larger as \(r_n\)
 decreases, which could lead to overshooting the beacon. We now compare two
-algorithms that overcome this limitation by using a recursive approach that
-keeps the step size constant.
+algorithms that overcome this limitation by using a recursive approach.
+%that
+%keeps the step size constant.
 
 \subsection{Beacon Tracking Algorithm}
 \label{subsec:beacon-tracking-algorithm}
