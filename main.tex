@@ -113,8 +113,11 @@ literate=
 
 \title{Indoor Wireless Beacon Tracking Using ESP32}
 \author{
-    \IEEEauthorblockN{Gautam Singh, Sachin Omprakash Dubey, G.V.V. Sharma} \\
-    \IEEEauthorblockA{Indian Institute of Technology Hyderabad, India} 
+    \IEEEauthorblockN{Gautam Singh, Sachin Omprakash Dubey and G.V.V. Sharma} 
+    %\\
+    \IEEEauthorblockA{EE Department, Indian Institute of Technology Hyderabad, 
+    \\
+Kandi, India 502284} 
     %\IEEEauthorblockA{Indian Institute of Technology Hyderabad, India} \\
 }
 \maketitle
@@ -224,7 +227,7 @@ problem to estimate the radial distance of the UGV from the beacon. We then prop
 \label{subsec:problem-statement}
 
 To estimate (radial) distance to beacon, we use its signal strength which is
-usually given by the Received Signal Strength Indicator (RSSI). The RSSI (in
+usually given by the RSSI. The RSSI (in
 dBm) at radial distance of \(r\) metres is defined as
 \begin{align}
     C\brak{r} = C\brak{1} - 10\log_{10}\brak{r},
@@ -267,22 +270,22 @@ algorithms that overcome this limitation by using a recursive approach.
 \subsection{Beacon Tracking Algorithm}
 \label{subsec:beacon-tracking-algorithm}
 
-It builds upon the algorithm proposed in
-\cite{dubeyNavigationCommunicationUGV2022}.
-The proposed beacon tracking algorithm consists of two stages at each step. The
+%It builds upon the algorithm proposed in
+%\cite{dubeyNavigationCommunicationUGV2022}.
+The proposed beacon tracking algorithms consists of two stages at each step. The
 first stage is the \emph{probing stage}, where the UGV measures the RSSI at
 various points in its vicinity. The second stage is the \emph{decision stage},
 where the UGV decides its direction of movement based on the RSSI measurements.
-We now discuss an existing algorithm that follows this approach of recursively
-probing and subsequent decision making and compare it with our proposed
-algorithm.
-
-\subsubsection{Existing Algorithm}
+%We now discuss an existing algorithm that follows this approach of recursively
+%probing and subsequent decision making and compare it with our proposed
+%algorithm.
+%
+\subsubsection{Angular Array RSSI Decision Algorithm (AARD)}
 \label{subsubsec:existing-algorithm}
 
 The algorithm proposed in \cite{dubeyNavigationCommunicationUGV2022} is
 described in \autoref{alg:beacon-dubey}. The probing phase consists of taking
-RSSI measurements in place but at various orientations. The decision phase
+RSSI measurements in place but at various orientations. The UGV reads the RSSI values at 3 locations 90\degree apart.  The decision phase
 consists of moving in the direction where the signal is the strongest. A major
 drawback of this approach is that there may not be appreciable difference in the
 measured RSSI values at the various orientations in the same place, especially
@@ -290,7 +293,7 @@ if the beacon is far away. This could lead to the UGV making arbitrary moves
 instead of converging towards the beacon.
 
 \begin{algorithm}[H]
-    \caption{Beacon Tracking Algorithm of \cite{dubeyNavigationCommunicationUGV2022}.}
+    \caption{LARD}
     \label{alg:beacon-dubey}
     \begin{algorithmic}[1]
         \Ensure{RSSI threshold \(T\), number of steps \(N\)}
@@ -312,7 +315,7 @@ instead of converging towards the beacon.
     \end{algorithmic}
 \end{algorithm}
 
-\subsubsection{Proposed Algorithm}
+\subsubsection{Linear Array RSSI Decision Algorithm (LARD)}
 \label{subsubsec:proposed-algorithm}
 
 To overcome the issue of arbitrary movement when placed at a large distance from
@@ -330,7 +333,7 @@ particular algorithm is the amount of movement required in the probing stage for
 making one simple move in the decision stage.
 
 \begin{algorithm}[H]
-    \caption{Proposed Beacon Tracking Algorithm}
+    \caption{LARD}
     \label{alg:beacon}
     \begin{algorithmic}[1]
         \Ensure{RSSI threshold \(T\), number of points \(N\)}
@@ -358,8 +361,8 @@ making one simple move in the decision stage.
 
 Source codes for both of the beacon tracking algorithms discussed above are
 implemented in C++. They are available on
-\href{https://github.com/goats-9/ee2802/main/ugv-beacon/codes}{GitHub}.
-
+\href{https://github.com/gadepall/ugv-beacon/tree/main/codes}{https://github.com/gadepall/ugv-beacon/tree/main/codes}.
+%
 \subsection{Assets}
 \begin{enumerate}
     \item UGV chassis with DC motors
@@ -377,7 +380,7 @@ implemented in C++. They are available on
     \item Connect the ESP32 board to your Android Phone.
     \item Generate the firmware by entering the following commands.
         \begin{lstlisting}
-$ cd codes
+$ cd codes/gautam
 $ pio run
         \end{lstlisting}
     \item Go to ArduinoDroid and select
@@ -391,6 +394,12 @@ codes/.pio/build/firmware.hex
     \item Now put the phone at a reasonable distance from the UGV with no
     obstacles in the way and then turn on the hotspot. The UGV should travel
     towards the phone and stop near it.
+\item 
+The above steps are for the second algorithm.  For the first algorithm, use 
+        \begin{lstlisting}
+$ cd codes/dubey
+$ pio run
+        \end{lstlisting}
 \end{enumerate}
 
 \begin{figure}[t]
@@ -402,7 +411,7 @@ codes/.pio/build/firmware.hex
 
 \section{Results}
 \label{sec:results}
-The UGV eventually converges close to the beacon (here, the hotspot). However,
+In the AARD algorithm, the UGV eventually converges close to the beacon (here, the hotspot). However, in some cases, when the RSSI values are too close, the UGV may not be able to track the beacon and may end up in a random direction.  The LARD algorithm is more reliable.  However,  in this case, 
 if there are a lot of nearby obstacles, the UGV may not converge close to the
 location of the beacon. It may either get physically blocked by the beacon or
 the signal interference may be too high.
@@ -414,14 +423,14 @@ In this paper, we presented a cost-effective and robust beacon tracking
 algorithm that uses RSSI measurements to approach the beacon at each step. Our
 work uses easily available hardware and software tools to implement the
 algorithm on an ESP32 microcontroller mounted on a UGV chassis. A simple
-extension to our proposed algorithm could be to reduce the time and total number
-of steps taken by adjusting the value of \(N\) as the UGV converges to the
+extension to our proposed algorithm could be to combine the AARD and LARD algorithms to reduce the time and total number
+of steps taken by adjusting the value of \(N, \theta\) as the UGV converges to the
 beacon. This could be done using various heuristics such as the total number of
 probes or current RSSI measurements. A further extension of this work could be
-to use additional sensors such as a gyroscope or an accelerometer to improve the
-accuracy of the UGV's position and prevent deviations from the intended path of
-the UGV.
-
+to 
+suitably adapt
+    \eqref{eq:gradient-ascent-upd} so that the UGV does not overshoot the beacon.
+%
 \bibliographystyle{IEEEtran}
 \bibliography{references}
 

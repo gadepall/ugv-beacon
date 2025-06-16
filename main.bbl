@@ -69,12 +69,12 @@ A.~K. Kashyap and K.~Konathalapalli, ``Autonomous navigation of {{ROS2}} based
   approach,'' \emph{International Journal of Information Technology}, Mar.
   2025.
 
-\bibitem{dubeyNavigationCommunicationUGV2022}
-S.~O. Dubey, ``Navigation and {{Communication}} for {{UGV}}/{{UAV}},'' Master's
-  thesis, Indian Institute of Technology, Hyderabad, Jun. 2022.
-
 \bibitem{boydConvexOptimization2004a}
 S.~P. Boyd and L.~Vandenberghe, \emph{Convex Optimization}.\hskip 1em plus
   0.5em minus 0.4em\relax Cambridge university press, 2004.
+
+\bibitem{dubeyNavigationCommunicationUGV2022}
+S.~O. Dubey, ``Navigation and {{Communication}} for {{UGV}}/{{UAV}},'' Master's
+  thesis, Indian Institute of Technology, Hyderabad, Jun. 2022.
 
 \end{thebibliography}
