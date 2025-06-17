@@ -113,32 +113,34 @@ literate=
 
 \title{Indoor Wireless Beacon Tracking Using ESP32}
 \author{
-    \IEEEauthorblockN{Gautam Singh, Sachin Omprakash Dubey and G.V.V. Sharma} 
-    %\\
-    \IEEEauthorblockA{EE Department, Indian Institute of Technology Hyderabad, 
-    \\
-Kandi, India 502284} 
-    %\IEEEauthorblockA{Indian Institute of Technology Hyderabad, India} \\
+    \IEEEauthorblockN{Gautam Singh, Sachinkumar Omprakash Dubey and G.V.V. Sharma} 
+    \IEEEauthorblockA{EE Department, Indian Institute of Technology Hyderabad,\\
+    Kandi, India 502284}
 }
 \maketitle
 
 \begin{abstract}
-    Through this paper, we demonstrate the use of machine learning in
-    beacon tracking using an unmanned ground vehicle (UGV) and a WiFi-enabled
-    microcontroller such as the ESP32.
-    This is done by using received signal strength indicator (RSSI) values from a single target beacon as inputs to the microcontroller. These values are then used for making decisions on UGV positioning using learning algorithms. 
+    Through this paper, we demonstrate the use of machine learning in beacon
+    tracking using an unmanned ground vehicle (UGV) and a WiFi-enabled
+    microcontroller such as the ESP32. This is done by using received signal
+    strength indicator (RSSI) values from a single target beacon as inputs to
+    the microcontroller. These values are then used for making decisions on UGV
+    positioning using learning algorithms. 
 \end{abstract}
 
 \section{Introduction}
 \label{sec:intro}
 Positioning, localization and navigation (PLAN) technology has become an
 essential capability for consumer electronics and autonomous vehicles alike.
-This fast growing market has seen the entry of big technology industry that was traditionally focused on internet software \cite{}.  
-Use cases of PLAN include safety, medical applications and
-assistance for the elderly and the specially abled \cite{}. Reliable PLAN technology can
+This fast growing market has seen the entry of big technology industry that was
+traditionally focused on internet software
+\cite{el-sheimyIndoorNavigationState2021}. Use cases of PLAN technologies
+include object tracking, deep sea exploration, autonomous navigation, medical
+applications and assistance for the elderly and the specially abled
+\cite{laoudiasSurveyEnablingTechnologies2018}. Reliable PLAN technology can
 reduce road accidents, congestion, energy and time consumption. However, many
-existing PLAN technologies cater to industrial use cases and are expensive,
-complex and require hardware that might be scarcely available to consumers \cite{}. 
+existing PLAN technologies are expensive, complex, cater to industrial use cases
+and require hardware that might be scarcely available to consumers \cite{}. 
 
 To overcome the above challenges, we propose a simple, effective and robust
 algorithm for indoor beacon tracking using a single WiFi or BLE beacon and a
@@ -173,19 +175,22 @@ the primary sensors used in navigation and illustrates the trade-offs between
 accuracy, cost and complexity. Some of these technologies are briefly described
 below.
 
-A fuzzy
-controller system  consisting of three ultrasonic sensors and one camera to
-detect obstacles in the robot's vicinity is presented in \cite{narayananFuzzyGuidedAutonomous2022}. The navigation logic is implemented on
-BLE tag modules using the angle of arrival (AOA) method and is suitable for
-unmanned nursing in hospitals, especially during pandemic outbreaks. \cite{familiIDROPRobustLocalization2023} proposes iDROP, a 3D localization
+A fuzzy controller system  consisting of three ultrasonic sensors and one camera
+to detect obstacles in the robot's vicinity is presented in
+\cite{narayananFuzzyGuidedAutonomous2022}. The navigation logic is implemented
+on BLE tag modules using the angle of arrival (AOA) method and is suitable for
+unmanned nursing in hospitals, especially during pandemic outbreaks.
+\cite{familiIDROPRobustLocalization2023} proposes iDROP, a 3D localization
 scheme for drones in indoor GPS-denied environments that is robust against noise
-and multipath fading and provides location estimation with high accuracy. A UGV implemented on the
-robot operating system (ROS) that uses light detection and ranging (LiDAR) for
-accurate navigation even in dynamic conditions and is suitable for various
-indoor robotic use cases such as in warehouses or construction sites is available in \cite{htROSPoweredAutonomous2024}. \cite{yukhimetsLocalNavigationSystem2024} proposes a scalable
-navigation system using multiple ESP32 microcontrollers acting as BLE beacons. Here, a 
-neural network models the position of the robot based on the signal strength
-received from the various beacons and the Levenberg-Marquardt method is used to
+and multipath fading and provides location estimation with high accuracy. A UGV
+implemented on the robot operating system (ROS) that uses light detection and
+ranging (LiDAR) for accurate navigation even in dynamic conditions and is
+suitable for various indoor robotic use cases such as in warehouses or
+construction sites is available in \cite{htROSPoweredAutonomous2024}.
+\cite{yukhimetsLocalNavigationSystem2024} proposes a scalable navigation system
+using multiple ESP32 microcontrollers acting as BLE beacons. Here, a neural
+network models the position of the robot based on the signal strength received
+from the various beacons and the Levenberg-Marquardt method is used to
 accurately estimate the position of the robot. 
 %A strategy for landing a UAV is discussed in \cite{stefasUAVLandingUnknown2019}This uses a
 %radio beacon that exploits a special structure occurring when approaching the
@@ -193,18 +198,18 @@ accurately estimate the position of the robot.
 %beacon.
 
 Methods based on artificial intelligence (AI) have gained popularity in recent
-literature. \cite{liuSimpleOnlineUnmanned2021} proposes an easy to
-implement method for multi-object tracking (MOT) using an encoder-decoder
-mechanism. The proposed method achieves comparable performance with
-state-of-the-art frameworks on the challenging MOT dataset. In
-\cite{masmitjaReinforcementLearningPath2022}, deep reinforcement
-learning (RL) is leveraged to train an agent for tracking dynamically moving objects using
-unmanned surface vehicles (USV) in marine environments. The trained RL agent
-performs comparably to the analytically derived trajectory in the steady state.
-The authors of \cite{kashyapAutonomousNavigationROS22025} explore multiple RL
-algorithms using LiDAR inputs on TurtleBot3, showing that the twin delayed deep
-deterministic policy gradient (TD3) is the most efficient and robust across
-varied environments.
+literature. \cite{liuSimpleOnlineUnmanned2021} proposes an easy to implement
+method for multi-object tracking (MOT) using an encoder-decoder mechanism. The
+proposed method achieves comparable performance with state-of-the-art frameworks
+on the challenging MOT dataset. In \cite{masmitjaReinforcementLearningPath2022},
+deep reinforcement learning (RL) is leveraged to train an agent for tracking
+dynamically moving objects using unmanned surface vehicles (USV) in marine
+environments. The trained RL agent performs comparably to the analytically
+derived trajectory in the steady state. The authors of
+\cite{kashyapAutonomousNavigationROS22025} explore multiple RL algorithms using
+LiDAR inputs on TurtleBot3, showing that the twin delayed deep deterministic
+policy gradient (TD3) is the most efficient and robust across varied
+environments.
 
 Many of the above methods are either too complex or too expensive to be
 implemented on cheap hardware such as an ESP32 microcontroller. Furthermore, a
@@ -217,7 +222,8 @@ beacon and easily available wireless-capable microcontrollers such as the ESP32.
 \label{sec:proposed-system}
 
 In this section, we formulate the beacon tracking problem as an optimization
-problem to estimate the radial distance of the UGV from the beacon. We then propose two solutions to this problem and compare their effectiveness.
+problem to estimate the radial distance of the UGV from the beacon. We then
+propose two solutions to this problem and compare their effectiveness.
 
 %Then, we describe our algorithm for solving this optimization problem
 %using gradient ascent and compare it to a similar algorithm proposed in
@@ -227,8 +233,8 @@ problem to estimate the radial distance of the UGV from the beacon. We then prop
 \label{subsec:problem-statement}
 
 To estimate (radial) distance to beacon, we use its signal strength which is
-usually given by the RSSI. The RSSI (in
-dBm) at radial distance of \(r\) metres is defined as
+usually given by the RSSI. The RSSI (in dBm) at radial distance of \(r\) metres
+is defined as
 \begin{align}
     C\brak{r} = C\brak{1} - 10\log_{10}\brak{r},
     \label{eq:rssi}
@@ -242,18 +248,19 @@ optimization problem.
 \end{equation}
 The derivative and second derivative of \(C\brak{r}\) is
 \begin{align}
-    R^\prime\brak{r} &= -\frac{10}{\ln{10}}\frac{1}{r}, \label{eq:rssid} \\
-    R^{\prime\prime}\brak{r} &= \frac{10}{\ln{10}}\frac{1}{r^2} > 0. \label{eq:rssidd}
+    C^\prime\brak{r} &= -\frac{10}{\ln{10}}\frac{1}{r}, \label{eq:rssid} \\
+    C^{\prime\prime}\brak{r} &= \frac{10}{\ln{10}}\frac{1}{r^2} > 0. \label{eq:rssidd}
 \end{align}
-Notice that for \(r > 0\), \(R^\prime\brak{r} < 0\), thus \(C\brak{r}\) is a
+Notice that for \(r > 0\), \(C^\prime\brak{r} < 0\), thus \(C\brak{r}\) is a
 decreasing function of \(r\). This implies that the maximum RSSI is at \(r =
-0\), as expected. Since \(C\brak{r}\) is a convex function of \(r\) \cite{}, we can use
+0\), as expected. Additionally, note that \(C\brak{r}\) is a convex function of
+\(r\) since \(C^{\prime\prime}\brak{r} > 0\) for \(r > 0\). Thus, we can use
 gradient ascent \cite{boydConvexOptimization2004a} to recursively find the point
 where the RSSI is maximum, which would correspond to the location of the beacon.
 Using \eqref{eq:rssid}, the gradient ascent update equation for the radial
 distance \(r\) is given by
 \begin{equation}
-    r_{n+1} = r_n + \alpha R^\prime\brak{r_n} = r_n - \frac{10\alpha}{r_n\ln{10}}
+    r_{n+1} = r_n + \alpha C^\prime\brak{r_n} = r_n - \frac{10\alpha}{r_n\ln{10}}
     \label{eq:gradient-ascent-upd}
 \end{equation}
 where \(r_i\) is the radial distance at the \(i\)-th step and \(\alpha\) is the
@@ -285,15 +292,16 @@ where the UGV decides its direction of movement based on the RSSI measurements.
 
 The algorithm proposed in \cite{dubeyNavigationCommunicationUGV2022} is
 described in \autoref{alg:beacon-dubey}. The probing phase consists of taking
-RSSI measurements in place but at various orientations. The UGV reads the RSSI values at 3 locations 90\degree apart.  The decision phase
-consists of moving in the direction where the signal is the strongest. A major
-drawback of this approach is that there may not be appreciable difference in the
-measured RSSI values at the various orientations in the same place, especially
-if the beacon is far away. This could lead to the UGV making arbitrary moves
-instead of converging towards the beacon.
+RSSI measurements in place but at various orientations. The UGV reads the RSSI
+values at 3 locations 90\degree apart.  The decision phase consists of moving in
+the direction where the signal is the strongest. A major drawback of this
+approach is that there may not be appreciable difference in the measured RSSI
+values at the various orientations in the same place, especially if the beacon
+is far away. This could lead to the UGV making arbitrary moves instead of
+converging towards the beacon.
 
 \begin{algorithm}[H]
-    \caption{LARD}
+    \caption{AARD}
     \label{alg:beacon-dubey}
     \begin{algorithmic}[1]
         \Ensure{RSSI threshold \(T\), number of steps \(N\)}
@@ -411,10 +419,13 @@ $ pio run
 
 \section{Results}
 \label{sec:results}
-In the AARD algorithm, the UGV eventually converges close to the beacon (here, the hotspot). However, in some cases, when the RSSI values are too close, the UGV may not be able to track the beacon and may end up in a random direction.  The LARD algorithm is more reliable.  However,  in this case, 
-if there are a lot of nearby obstacles, the UGV may not converge close to the
-location of the beacon. It may either get physically blocked by the beacon or
-the signal interference may be too high.
+In the AARD algorithm, the UGV eventually converges close to the beacon (here,
+the hotspot). However, in some cases, when the RSSI values are too close, the
+UGV may not be able to track the beacon and may end up in a random direction.
+The LARD algorithm is more reliable.  However,  in this case, if there are a lot
+of nearby obstacles, the UGV may not converge close to the location of the
+beacon. It may either get physically blocked by the beacon or the signal
+interference may be too high.
 
 \section{Conclusion and Future Work}
 \label{sec:conclusion}
@@ -423,13 +434,12 @@ In this paper, we presented a cost-effective and robust beacon tracking
 algorithm that uses RSSI measurements to approach the beacon at each step. Our
 work uses easily available hardware and software tools to implement the
 algorithm on an ESP32 microcontroller mounted on a UGV chassis. A simple
-extension to our proposed algorithm could be to combine the AARD and LARD algorithms to reduce the time and total number
-of steps taken by adjusting the value of \(N, \theta\) as the UGV converges to the
-beacon. This could be done using various heuristics such as the total number of
-probes or current RSSI measurements. A further extension of this work could be
-to 
-suitably adapt
-    \eqref{eq:gradient-ascent-upd} so that the UGV does not overshoot the beacon.
+extension to our proposed algorithm could be to combine the AARD and LARD
+algorithms to reduce the time and total number of steps taken by adjusting the
+value of \(N, \theta\) as the UGV converges to the beacon. This could be done
+using various heuristics such as the total number of probes or current RSSI
+measurements. A further extension of this work could be to suitably adapt
+\eqref{eq:gradient-ascent-upd} so that the UGV does not overshoot the beacon.
 %
 \bibliographystyle{IEEEtran}
 \bibliography{references}
